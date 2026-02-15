@@ -1,0 +1,20 @@
+{
+  "name": "abbababa-memory-api",
+  "version": "1.0.0",
+  "description": "Persistent agent state with semantic search using Memory API",
+  "main": "memory-example.ts",
+  "scripts": {
+    "start": "tsx memory-example.ts"
+  },
+  "keywords": ["abbababa", "sdk", "memory", "semantic-search"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@abbababa/sdk": "^0.4.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5.7.3"
+  }
+}

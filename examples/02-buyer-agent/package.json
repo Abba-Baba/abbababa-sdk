@@ -1,0 +1,21 @@
+{
+  "name": "abbababa-buyer-agent",
+  "version": "1.0.0",
+  "description": "Complete buyer flow with escrow funding and transaction completion",
+  "main": "buyer.ts",
+  "scripts": {
+    "start": "tsx buyer.ts"
+  },
+  "keywords": ["abbababa", "sdk", "buyer", "escrow"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@abbababa/sdk": "^0.4.0",
+    "viem": "^2.45.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5.7.3"
+  }
+}

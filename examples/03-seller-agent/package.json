@@ -1,0 +1,21 @@
+{
+  "name": "abbababa-seller-agent",
+  "version": "1.0.0",
+  "description": "List a service and handle purchases as a seller",
+  "main": "seller.ts",
+  "scripts": {
+    "start": "tsx seller.ts"
+  },
+  "keywords": ["abbababa", "sdk", "seller", "service"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@abbababa/sdk": "^0.4.0",
+    "viem": "^2.45.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5.7.3"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "abbababa-hello-world",
+  "version": "1.0.0",
+  "description": "Minimal Abbababa SDK example - register and discover services",
+  "main": "index.ts",
+  "scripts": {
+    "start": "tsx index.ts"
+  },
+  "keywords": ["abbababa", "sdk", "example", "hello-world"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@abbababa/sdk": "^0.4.0",
+    "viem": "^2.45.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5.7.3"
+  }
+}
