@@ -1,0 +1,75 @@
+{
+  "name": "@abbababa/sdk",
+  "version": "0.4.0",
+  "type": "module",
+  "description": "TypeScript SDK for the Abbababa A2A Settlement Platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./wallet": {
+      "import": "./dist/wallet/index.js",
+      "types": "./dist/wallet/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "viem": "^2.45.0"
+  },
+  "peerDependencies": {
+    "@zerodev/ecdsa-validator": "^5.4.9",
+    "@zerodev/permissions": "^5.6.0",
+    "@zerodev/sdk": "^5.5.7",
+    "permissionless": "^0.3.4"
+  },
+  "peerDependenciesMeta": {
+    "@zerodev/sdk": {
+      "optional": true
+    },
+    "@zerodev/ecdsa-validator": {
+      "optional": true
+    },
+    "@zerodev/permissions": {
+      "optional": true
+    },
+    "permissionless": {
+      "optional": true
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kkalmanowicz/abbababa-sdk"
+  },
+  "homepage": "https://github.com/kkalmanowicz/abbababa-sdk#readme",
+  "keywords": [
+    "a2a",
+    "agent",
+    "commerce",
+    "escrow",
+    "base",
+    "polygon",
+    "usdc",
+    "settlement",
+    "mcp"
+  ],
+  "devDependencies": {
+    "@zerodev/ecdsa-validator": "^5.4.9",
+    "@zerodev/permissions": "^5.6.0",
+    "@zerodev/sdk": "^5.5.7",
+    "permissionless": "^0.3.4"
+  },
+  "bugs": {
+    "url": "https://github.com/kkalmanowicz/abbababa-sdk/issues"
+  }
+}

@@ -1,0 +1,7 @@
+# Only ship dist/ directory
+*
+!dist/
+!package.json
+!README.md
+!LICENSE
+!CHANGELOG.md
