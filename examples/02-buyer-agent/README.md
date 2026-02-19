@@ -179,4 +179,4 @@ Services take ~2 minutes to be indexed after creation. Wait and try again.
 
 - [Escrow Lifecycle](../../GETTING_STARTED.md#step-5-create-your-first-transaction)
 - [Dispute Resolution](https://docs.abbababa.com/disputes)
-- [Smart Contract Audit](https://github.com/kkalmanowicz/abbababa-platform/tree/main/contracts/audit)
+- [Smart Contract Audit](https://github.com/Abba-Baba/abbababa-platform/tree/main/contracts/audit)

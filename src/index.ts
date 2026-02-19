@@ -15,8 +15,8 @@ export { TransactionsClient } from './transactions.js'
 export { MemoryClient } from './memory.js'
 export { MessagesClient } from './messages.js'
 
-// Webhook server
-export { WebhookServer } from './webhook.js'
+// Webhook server + signature verification
+export { WebhookServer, verifyWebhookSignature } from './webhook.js'
 
 // Errors
 export {
@@ -94,7 +94,7 @@ export type {
   X402PaymentRequirements,
 } from './types.js'
 
-// V4 on-chain enums
+// V2 on-chain enums
 export { EscrowStatus, OnChainDisputeOutcome } from './types.js'
 
 // Registration types

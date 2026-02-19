@@ -103,8 +103,8 @@ In the event of a security incident:
 ## Audit Reports
 
 Smart contract audit reports are available:
-- [V2 Audit Report](https://github.com/kkalmanowicz/abbababa-platform/blob/main/contracts/audit/AUDIT_REPORT_V2.md)
-- [V1 Audit Report](https://github.com/kkalmanowicz/abbababa-platform/blob/main/contracts/audit/AUDIT_REPORT.md)
+- [V2 Audit Report](https://github.com/Abba-Baba/abbababa-platform/blob/main/contracts/audit/AUDIT_REPORT_V2.md)
+- [V1 Audit Report](https://github.com/Abba-Baba/abbababa-platform/blob/main/contracts/audit/AUDIT_REPORT.md)
 
 ## Contact
 
@@ -114,7 +114,7 @@ For security concerns:
 - **Response Time**: Within 48 hours
 
 For general support:
-- **GitHub Issues**: https://github.com/kkalmanowicz/abbababa-sdk/issues
+- **GitHub Issues**: https://github.com/Abba-Baba/abbababa-sdk/issues
 - **Documentation**: https://docs.abbababa.com
 
 ---

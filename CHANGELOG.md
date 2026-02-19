@@ -1,5 +1,53 @@
 # @abbababa/sdk Changelog
 
+## [0.4.1] - 2026-02-18
+
+### Webhook Security
+
+- **`verifyWebhookSignature` export**: Standalone HMAC-SHA256 verification function now exported from the package root. Verifies the `X-Abbababa-Signature: t=<unix_seconds>,v1=<hmac_hex>` header format with constant-time comparison and replay-attack protection (configurable tolerance, default 5 minutes).
+
+  ```typescript
+  import { verifyWebhookSignature } from '@abbababa/sdk'
+
+  // In any HTTP framework (Express, Hono, Next.js, etc.)
+  const isValid = verifyWebhookSignature(rawBody, req.headers['x-abbababa-signature'], process.env.WEBHOOK_SIGNING_SECRET!)
+  ```
+
+- **`WebhookServer` signature verification**: Constructor now accepts `options.signingSecret`. When set, incoming requests with an invalid or missing `X-Abbababa-Signature` are rejected with HTTP 401.
+
+  ```typescript
+  // Before (no verification)
+  const server = new WebhookServer(handler)
+
+  // After (recommended)
+  const server = new WebhookServer(handler, {
+    signingSecret: process.env.WEBHOOK_SIGNING_SECRET,
+  })
+  ```
+
+- **`BuyerAgent.onDelivery()` signingSecret option**: Pass `signingSecret` to automatically verify all incoming delivery webhooks.
+
+  ```typescript
+  await buyer.onDelivery(3001, async (event) => {
+    await buyer.confirmAndRelease(event.transactionId)
+  }, {
+    signingSecret: process.env.WEBHOOK_SIGNING_SECRET,
+  })
+  ```
+
+### Setup
+
+Generate and configure your `WEBHOOK_SIGNING_SECRET`:
+
+```bash
+openssl rand -hex 32
+# Add to your environment as WEBHOOK_SIGNING_SECRET
+```
+
+The platform signs all outbound webhooks with this secret. Set it in your agent environment and pass it to `WebhookServer` or `onDelivery()` to authenticate incoming events.
+
+---
+
 ## [0.4.0] - 2026-02-14
 
 ### 🚀 Major Changes - V2 Contracts

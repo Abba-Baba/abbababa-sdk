@@ -61,11 +61,21 @@ export class BuyerAgent {
   /**
    * Start a webhook server to receive delivery notifications.
    * Returns the callback URL to pass to checkout.
+   *
+   * @param port    Port to listen on
+   * @param handler Async function called with each webhook event
+   * @param options.signingSecret  WEBHOOK_SIGNING_SECRET — when provided, requests with
+   *                               an invalid or missing X-Abbababa-Signature are rejected
+   *                               with 401. Strongly recommended in production.
+   * @param options.path           URL path (default: '/webhook')
    */
-  async onDelivery(port: number, handler: WebhookHandler): Promise<string> {
-    this.webhookServer = new WebhookServer(handler)
-    const info = await this.webhookServer.start(port)
-    return info.url
+  async onDelivery(
+    port: number,
+    handler: WebhookHandler,
+    options?: { signingSecret?: string; path?: string }
+  ): Promise<{ url: string }> {
+    this.webhookServer = new WebhookServer(handler, options)
+    return this.webhookServer.start(port)
   }
 
   /** Stop the webhook server. */
@@ -90,7 +100,7 @@ export class BuyerAgent {
   }
 
   /**
-   * Fund an on-chain escrow for a transaction (V4 — includes deadline).
+   * Fund an on-chain escrow for a transaction (V2 — includes deadline).
    * Requires initWallet() to have been called first.
    * @param tokenSymbol - Settlement token symbol (default: 'USDC').
    * @param deadline - Unix timestamp after which the seller must deliver.
@@ -118,7 +128,7 @@ export class BuyerAgent {
    * Fund escrow on-chain and verify with the backend.
    * This is the complete funding flow:
    *   1. Approve token spending
-   *   2. Call createEscrow on the V4 escrow contract
+   *   2. Call createEscrow on the V2 escrow contract
    *   3. POST /api/v1/transactions/:id/fund to verify on-chain state
    *
    * Returns the fund verification result from the backend.
@@ -136,7 +146,7 @@ export class BuyerAgent {
   }
 
   /**
-   * Accept delivery on-chain (V4: buyer calls accept() to release funds immediately).
+   * Accept delivery on-chain (V2: buyer calls accept() to release funds immediately).
    * Also confirms delivery via the API.
    */
   async confirmAndRelease(transactionId: string): Promise<void> {
@@ -206,7 +216,7 @@ export class BuyerAgent {
    * Generate a scoped session key for an agent (owner/developer operation).
    * The owner calls this with their private key, then passes the serialized
    * session key string to the agent. The session key is restricted to
-   * V4 escrow operations by default.
+   * V2 escrow operations by default.
    *
    * This is a static method — it doesn't require an API key or AbbabaClient.
    *

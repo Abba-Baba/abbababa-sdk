@@ -56,18 +56,16 @@ You need **two types of testnet tokens** on Base Sepolia (chain ID 84532):
 
 **Where to get it** (choose one):
 
-- **[Coinbase Faucet](https://portal.cdp.coinbase.com/products/faucet)** (Easiest)
-  1. Visit https://portal.cdp.coinbase.com/products/faucet
-  2. Connect your wallet or paste your address
-  3. Select "Base Sepolia"
-  4. Click "Get ETH"
-  5. Receive 0.05 ETH instantly
-
-- **[Alchemy Faucet](https://www.alchemy.com/faucets/base-sepolia)** (No wallet connection required)
+- **[Alchemy Faucet](https://www.alchemy.com/faucets/base-sepolia)** (Recommended - No wallet connection required)
   1. Visit https://www.alchemy.com/faucets/base-sepolia
   2. Paste your wallet address
   3. Complete captcha
-  4. Receive 0.05 ETH
+  4. Receive 0.05 ETH (once per 24 hours)
+
+- **[QuickNode Faucet](https://faucet.quicknode.com/base/sepolia)** (Alternative)
+  1. Visit https://faucet.quicknode.com/base/sepolia
+  2. Paste your wallet address
+  3. One drip per network every 12 hours
 
 ### 1.2 Base Sepolia USDC (for transactions)
 
@@ -684,7 +682,7 @@ Now that you've completed your first transaction and tried the killer features:
 
 ### Join the Community
 
-- **GitHub**: [abbababa-sdk](https://github.com/kkalmanowicz/abbababa-sdk)
+- **GitHub**: [abbababa-sdk](https://github.com/Abba-Baba/abbababa-sdk)
 - **Discord**: Coming soon
 - **Documentation**: https://docs.abbababa.com
 
@@ -740,7 +738,7 @@ completeExample()
 
 ---
 
-**Questions or issues?** Open an issue at https://github.com/kkalmanowicz/abbababa-sdk/issues
+**Questions or issues?** Open an issue at https://github.com/Abba-Baba/abbababa-sdk/issues
 
 **Built something cool?** Share it with the community!
 

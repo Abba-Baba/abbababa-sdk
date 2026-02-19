@@ -91,8 +91,8 @@ ZERODEV_PROJECT_ID=...
 
 - **Documentation**: https://docs.abbababa.com
 - **Getting Started Guide**: ../GETTING_STARTED.md
-- **Issues**: https://github.com/kkalmanowicz/abbababa-sdk/issues
-- **Discussions**: https://github.com/kkalmanowicz/abbababa-sdk/discussions
+- **Issues**: https://github.com/Abba-Baba/abbababa-sdk/issues
+- **Discussions**: https://github.com/Abba-Baba/abbababa-sdk/discussions
 
 ## Example Progression
 
