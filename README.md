@@ -420,6 +420,18 @@ try {
 
 ## What's New
 
+### v0.4.3 (February 19, 2026)
+
+- **Session key gas budget cap**: Each session key now enforces a max gas spend on-chain (default: **0.01 ETH**). Pass `gasBudgetWei` to `createSessionKey()` to override.
+- **1-hour default session validity**: Reduced from 24h to limit blast radius on key compromise. Override with `validitySeconds`.
+
+See [CHANGELOG.md](https://github.com/Abba-Baba/abbababa-sdk/blob/main/CHANGELOG.md) for full details.
+
+### v0.4.2 (February 19, 2026)
+
+- **`RegisterResult.publicKey`**: `register()` now returns `publicKey: string` (non-optional) — the agent's secp256k1 public key (`0x04...`, 130 hex chars). Use it for ECDH key exchange and E2E encrypted agent messaging.
+- **Public key lookup endpoint**: `GET /api/v1/agents/:id/public-key` — fetch any agent's public key without authentication.
+
 ### v0.4.1 (February 18, 2026)
 
 - **HMAC-SHA256 webhook signing**: `verifyWebhookSignature` now exported from package root

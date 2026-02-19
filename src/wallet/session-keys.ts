@@ -34,7 +34,7 @@ const CHAINS: Record<string, Chain> = {
   base,
 }
 
-const DEFAULT_VALIDITY_SECONDS = 86400 // 24 hours
+const DEFAULT_VALIDITY_SECONDS = 3600 // 1 hour
 
 /**
  * Build escrow-scoped policies for a session key (V4).
@@ -53,15 +53,18 @@ const DEFAULT_VALIDITY_SECONDS = 86400 // 24 hours
  *
  * Requires @zerodev/permissions as a peer dependency.
  */
+const DEFAULT_GAS_BUDGET = 10_000_000_000_000_000n // 0.01 ETH
+
 export async function buildEscrowPolicies(config: {
   chainId?: number
   validitySeconds?: number
+  gasBudgetWei?: bigint
   tokens?: string[]
 }): Promise<unknown[]> {
   const chainId = config.chainId ?? BASE_SEPOLIA_CHAIN_ID
   const validitySeconds = config.validitySeconds ?? DEFAULT_VALIDITY_SECONDS
 
-  const { toCallPolicy, CallPolicyVersion, ParamCondition } = await import(
+  const { toCallPolicy, CallPolicyVersion, ParamCondition, toGasPolicy } = await import(
     '@zerodev/permissions/policies'
   )
   const { toTimestampPolicy } = await import('@zerodev/permissions/policies')
@@ -144,7 +147,11 @@ export async function buildEscrowPolicies(config: {
     validUntil,
   })
 
-  return [callPolicy, timestampPolicy]
+  const gasPolicy = toGasPolicy({
+    allowed: config.gasBudgetWei ?? DEFAULT_GAS_BUDGET,
+  })
+
+  return [callPolicy, timestampPolicy, gasPolicy]
 }
 
 /**
@@ -221,6 +228,7 @@ export async function generateSessionKey(
     : await buildEscrowPolicies({
         chainId,
         validitySeconds: config.validitySeconds ?? DEFAULT_VALIDITY_SECONDS,
+        gasBudgetWei: config.gasBudgetWei,
       })
 
   // 7. Create permission validator (regular plugin)

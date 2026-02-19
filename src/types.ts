@@ -411,8 +411,10 @@ export interface SessionKeyConfig {
   ownerPrivateKey: string
   zeroDevProjectId: string
   chain?: 'polygon' | 'polygonAmoy' | 'baseSepolia' | 'base'
-  /** Session validity in seconds (default: 86400 = 24 hours) */
+  /** Session validity in seconds (default: 3600 = 1 hour) */
   validitySeconds?: number
+  /** Max gas this session key may spend in wei (default: 10_000_000_000_000_000n = 0.01 ETH) */
+  gasBudgetWei?: bigint
   /** Override default escrow-scoped policies with custom policies */
   customPolicies?: unknown[]
 }

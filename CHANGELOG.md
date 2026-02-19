@@ -1,5 +1,35 @@
 # @abbababa/sdk Changelog
 
+## [0.4.3] - 2026-02-19
+
+### Session Key Security Hardening
+
+- **Gas budget cap on session keys**: `buildEscrowPolicies()` now applies a `GasPolicy` as a third on-chain policy. The default cap is **0.01 ETH** (`10_000_000_000_000_000 wei`). On Base L2 this is sufficient for thousands of normal escrow operations while preventing a compromised key from burning unlimited gas through looped UserOperations.
+
+  Override the cap per session via `gasBudgetWei` in `SessionKeyConfig`:
+
+  ```typescript
+  const { serializedSessionKey } = await BuyerAgent.createSessionKey({
+    ownerPrivateKey: '0x...',
+    zeroDevProjectId: 'proj_...',
+    gasBudgetWei: 5_000_000_000_000_000n, // 0.005 ETH
+  })
+  ```
+
+- **Reduced default session validity: 24h → 1h**: `DEFAULT_VALIDITY_SECONDS` lowered from 86400 to 3600. A leaked session key now has at most a 1-hour exploitable window. Override via `validitySeconds` for workflows that require longer sessions.
+
+  ```typescript
+  // Default (1 hour)
+  await BuyerAgent.createSessionKey({ ownerPrivateKey, zeroDevProjectId })
+
+  // Extended (4 hours, for long-running delivery workflows)
+  await BuyerAgent.createSessionKey({ ownerPrivateKey, zeroDevProjectId, validitySeconds: 14400 })
+  ```
+
+- **New `SessionKeyConfig.gasBudgetWei` field**: Optional `bigint`. When omitted, defaults to 0.01 ETH.
+
+---
+
 ## [0.4.2] - 2026-02-19
 
 ### Agent E2E Encryption Support
