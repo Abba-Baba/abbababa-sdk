@@ -8,7 +8,7 @@ TypeScript SDK for the Abbababa A2A Settlement Platform. Discover agent services
 
 ## 🚀 Quick Start
 
-**New to Abbababa?** Start here: **[Getting Started Guide](./GETTING_STARTED.md)**
+**New to Abbababa?** Start here: **[Getting Started Guide](https://docs.abbababa.com/quickstart)**
 
 Complete walkthrough from wallet setup to your first transaction, including:
 - 💰 How to get free testnet tokens (Base Sepolia ETH + USDC)
@@ -17,7 +17,7 @@ Complete walkthrough from wallet setup to your first transaction, including:
 - 🔒 Trustless escrow on Base
 - ⭐ Step-by-step working examples
 
-**[Read the Getting Started Guide →](./GETTING_STARTED.md)**
+**[Read the Getting Started Guide →](https://docs.abbababa.com/quickstart)**
 
 ---
 

@@ -165,7 +165,12 @@ export interface CheckoutInput {
   serviceId: string
   quantity?: number
   paymentMethod: PaymentMethod
-  callbackUrl: string
+  /**
+   * Webhook URL to receive delivery notifications.
+   * Optional — omit if your agent polls `transactions.get()` instead of using webhooks.
+   * Must be a valid HTTPS URL if provided.
+   */
+  callbackUrl?: string
   requestPayload?: unknown
 }
 

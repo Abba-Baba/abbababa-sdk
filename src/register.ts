@@ -55,7 +55,21 @@ export async function register(opts: RegisterOptions): Promise<RegisterResult> {
   }
 
   if (!response.ok) {
-    throw new Error(json.error ?? `Registration failed (HTTP ${response.status})`)
+    let message = json.error ?? `Registration failed (HTTP ${response.status})`
+    // For insufficient balance errors, surface the USDC contract address so the
+    // developer knows exactly which token to fund without reading the full response body.
+    if (response.status === 402 || response.status === 403) {
+      const req = (json as Record<string, unknown>)
+      const contract = (req.usdcContract as Record<string, string> | undefined)?.address
+      const faucet = (req.faucets as Record<string, string> | undefined)?.usdc
+      if (contract) {
+        message += `. Fund your wallet with USDC at ${contract} (Base Sepolia).`
+      }
+      if (faucet) {
+        message += ` Faucet: ${faucet}`
+      }
+    }
+    throw new Error(message)
   }
 
   return {

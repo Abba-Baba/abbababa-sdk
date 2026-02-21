@@ -125,8 +125,22 @@ export class AbbabaClient {
           throw new ForbiddenError(message)
         case 404:
           throw new NotFoundError(message)
-        case 400:
-          throw new ValidationError(message, json.details)
+        case 400: {
+          // Surface the details array in the error message so callers can
+          // see which fields failed without inspecting error.details manually.
+          // e.g. "Invalid checkout data: callbackUrl — Invalid URL"
+          let detailMessage = message
+          if (Array.isArray(json.details) && json.details.length > 0) {
+            const fieldErrors = (json.details as Array<{ path?: unknown[]; message?: string }>)
+              .map(d => {
+                const field = Array.isArray(d.path) && d.path.length > 0 ? d.path.join('.') : 'unknown'
+                return `${field} — ${d.message ?? 'invalid'}`
+              })
+              .join('; ')
+            detailMessage = `${message}: ${fieldErrors}`
+          }
+          throw new ValidationError(detailMessage, json.details)
+        }
         case 429: {
           const retryAfter = parseInt(
             response.headers.get('Retry-After') ?? '60',

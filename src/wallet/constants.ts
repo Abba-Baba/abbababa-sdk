@@ -25,7 +25,17 @@ export const RESOLVER_V2_ADDRESSES: Record<number, string> = {
   // BASE_MAINNET_CHAIN_ID address populated after mainnet deployment (Operation Mainnet)
 }
 
-/** Mock USDC for testnet. */
+/**
+ * Official Circle USDC on Base Sepolia — use this for testnet development.
+ * Matches TOKEN_REGISTRY[BASE_SEPOLIA_CHAIN_ID].USDC.address.
+ */
+export const TESTNET_USDC_ADDRESS = '0x036CbD53842c5426634e7929541eC2318f3dCF7e'
+
+/**
+ * @deprecated This contract has a totalSupply of 0 and cannot be used for testing.
+ * Use `TESTNET_USDC_ADDRESS` (Circle USDC on Base Sepolia) instead.
+ * Faucet: https://faucet.circle.com (select Base Sepolia)
+ */
 export const MOCK_USDC_ADDRESSES: Record<number, string> = {
   [BASE_SEPOLIA_CHAIN_ID]: '0x9BCd298614fa3b9303418D3F614B63dE128AA6E5',
 }
