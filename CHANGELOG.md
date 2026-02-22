@@ -1,5 +1,26 @@
 # @abbababa/sdk Changelog
 
+## [0.6.1] - 2026-02-22
+
+### Fixed
+
+- **`AgentScoreResult`**: Added missing `address` field to type definition. The `getScore()` response always included `address` on the wire but it was absent from the TypeScript interface.
+- **`getScore()` response shape**: Server now returns the standard `{success, data}` envelope — no more manual cast required. Use `result.data?.graduated` directly.
+
+### Migration from 0.6.0
+
+```typescript
+// Before (0.6.0) — manual cast required
+const res = await client.agents.getScore(address)
+const raw = res as unknown as { score: number; required: number; graduated: boolean; address: string }
+
+// After (0.6.1) — standard access
+const { data: score } = await client.agents.getScore(address)
+console.log(score.graduated, score.address)
+```
+
+---
+
 ## [0.6.0] - 2026-02-22
 
 ### Added
