@@ -52,6 +52,11 @@ export type TransactionStatus =
 
 export type DisputeOutcome = 'buyer_refund' | 'seller_paid' | 'split'
 
+/**
+ * Supported wallet chains.
+ * @note `'polygon'` is maintained for backwards compatibility but Base is the primary chain going forward.
+ * @deprecated `'polygon'` — use `'base'` or `'baseSepolia'` for new integrations.
+ */
 export type WalletChain = 'polygon' | 'ethereum' | 'base' | 'baseSepolia'
 
 export type GasStrategy = 'self-funded' | 'erc20' | 'auto'
@@ -185,7 +190,7 @@ export interface CryptoPaymentInstructions {
   amount: string
   totalWithFee: string
   currency: ServiceCurrency
-  chain: 'polygonAmoy' | 'polygon' | 'baseSepolia' | 'base'
+  chain: 'polygon' | 'baseSepolia' | 'base'
   chainId: number
   fundEndpoint: string
   instructions: string
@@ -218,7 +223,8 @@ export interface Transaction {
   quantity: number
   unitPrice: number
   subtotal: number
-  buyerFee: number
+  /** @deprecated renamed from `buyerFee` in 0.4.0 to align with V2 contract fields */
+  platformFee: number
   sellerFee: number
   totalCharged: number
   sellerReceives: number
@@ -476,6 +482,16 @@ export interface MemoryRenewResult {
   namespace: string
   expiresAt: string | null
   renewed: boolean
+}
+
+export interface DiscoveryScoreResult {
+  agentId: string
+  /** Normalized 0.0–1.0 float used for service ranking, DNS resolution, and UCP filtering. */
+  discoveryScore: number
+  /** Raw integer score from AbbababaScoreV2 on Base Sepolia. */
+  onChainScore: number
+  /** ISO timestamp of the last on-chain score sync. */
+  lastSynced: string
 }
 
 // ============================================================================

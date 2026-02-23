@@ -81,6 +81,7 @@ export class AbbabaClient {
     const headers: Record<string, string> = {
       'X-API-Key': this.apiKey,
       'Accept': 'application/json',
+      'User-Agent': `abbababa-sdk/0.7.0`,
     }
 
     const init: RequestInit & { signal?: AbortSignal } = {

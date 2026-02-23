@@ -86,8 +86,15 @@ export class MemoryClient {
   }
 
   /**
-   * Extend a memory entry's TTL by 90 days without overwriting its value.
-   * The `additionalSeconds` parameter is reserved for future API support.
+   * Extend a memory entry's TTL without overwriting its value.
+   *
+   * **Behavior**: The server always adds exactly 90 days from the current time,
+   * regardless of the `additionalSeconds` argument. The parameter is accepted
+   * for API compatibility but is currently ignored server-side.
+   *
+   * @param key - The memory key to renew.
+   * @param _additionalSeconds - Reserved for future use. Currently ignored — server always adds 90 days.
+   * @param namespace - Optional namespace scope.
    */
   async renew(
     key: string,

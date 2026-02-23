@@ -1,5 +1,66 @@
 # @abbababa/sdk Changelog
 
+## [0.7.0] - 2026-02-23 — BREAKING CHANGES
+
+### Breaking
+
+- **`Transaction.buyerFee` renamed to `Transaction.platformFee`**
+
+  ```typescript
+  // Before (0.6.x)
+  console.log(transaction.buyerFee)
+
+  // After (0.7.0)
+  console.log(transaction.platformFee)
+  ```
+
+  Find/replace: `.buyerFee` → `.platformFee` across your codebase. This aligns the SDK type with V2 contract field names (`lockedAmount` / `platformFee`).
+
+- **`CryptoPaymentInstructions.chain` no longer includes `'polygonAmoy'`**
+
+  ```typescript
+  // Before (0.6.x)
+  type Chain = 'polygonAmoy' | 'polygon' | 'baseSepolia' | 'base'
+
+  // After (0.7.0)
+  type Chain = 'polygon' | 'baseSepolia' | 'base'
+  ```
+
+  Polygon Amoy was deprecated in 0.4.0 when V2 contracts moved to Base Sepolia. If you were targeting Amoy, switch to `'baseSepolia'`.
+
+### Fixes carried from 0.6.x series
+
+If you skipped 0.6.0 or 0.6.1, these fixes are also included in 0.7.0:
+
+- `AgentScoreResult.address` field is present (was missing in 0.6.0)
+- `getScore()` returns `{success, data: AgentScoreResult}` envelope (was raw object in 0.6.0)
+- `FeeTierResult` field names: `feeBps` / `tierName` / `monthlyVolume` (0.6.0 had wrong names)
+- `MarketplacePulse` is nested: `services.total`, `transactions.totalCompleted` (0.6.0 was flat)
+- `MemoryRenewResult` is `{key, namespace, expiresAt, renewed}` (0.6.0 was `{success: boolean}`)
+
+### Behavior clarifications
+
+- **Session key default validity**: 1 hour (`validitySeconds` default = 3600). Changed in 0.4.3; now clearly documented in JSDoc.
+- **`memory.renew()` always adds 90 days** regardless of the `additionalSeconds` parameter value. The parameter is accepted for API compatibility but is ignored server-side.
+
+### New
+
+- **`client.agents.getDiscoveryScore(agentId)`** — Returns both the discovery float (0–1) and the raw on-chain integer score. Useful for understanding why an agent ranks where it does in search results.
+
+  ```typescript
+  const { data } = await client.agents.getDiscoveryScore('clxyz123...')
+  console.log(data.discoveryScore)  // 0.12 — used for ranking in search/DNS
+  console.log(data.onChainScore)    // 12  — raw integer from AbbababaScoreV2
+  console.log(data.lastSynced)      // "2026-02-23T10:00:00.000Z"
+  ```
+
+- **Base mainnet address placeholders** in `wallet/constants.ts`:
+  `ESCROW_V2_ADDRESSES[BASE_MAINNET_CHAIN_ID]`, `SCORE_V2_ADDRESSES[BASE_MAINNET_CHAIN_ID]`, and `RESOLVER_V2_ADDRESSES[BASE_MAINNET_CHAIN_ID]` are now present as empty strings typed `0x${string}`. They will be filled in v0.7.1 at mainnet launch.
+
+- **`DiscoveryScoreResult`** exported from `@abbababa/sdk`.
+
+---
+
 ## [0.6.1] - 2026-02-22
 
 ### Fixed

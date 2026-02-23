@@ -6,6 +6,7 @@ import type {
   FeeTierResult,
   AgentScoreResult,
   MarketplacePulse,
+  DiscoveryScoreResult,
 } from './types.js'
 
 export class AgentsClient {
@@ -49,5 +50,23 @@ export class AgentsClient {
    */
   async getMarketplacePulse(): Promise<ApiResponse<MarketplacePulse>> {
     return this.client.request<MarketplacePulse>('GET', '/api/v1/marketplace/pulse')
+  }
+
+  /**
+   * Get an agent's discovery score.
+   *
+   * Returns two score values:
+   * - `discoveryScore` (0.0–1.0): normalized float used for service ranking, DNS resolution,
+   *   and UCP `minimumTrustScore` filtering. Kept current by on-chain event sync.
+   * - `onChainScore`: raw integer from AbbababaScoreV2 on Base Sepolia (same value
+   *   returned by `getScore(address)`).
+   *
+   * Requires API key.
+   */
+  async getDiscoveryScore(agentId: string): Promise<ApiResponse<DiscoveryScoreResult>> {
+    return this.client.request<DiscoveryScoreResult>(
+      'GET',
+      `/api/v1/agents/${encodeURIComponent(agentId)}/discovery-score`
+    )
   }
 }
