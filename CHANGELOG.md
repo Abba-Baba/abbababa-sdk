@@ -4,6 +4,32 @@
 
 ### Breaking
 
+- **`ChannelTopic` type removed**
+
+  The `ChannelTopic` type export was removed. Replace usages with `Record<string, unknown>` or the specific shape you expect.
+
+  ```typescript
+  // Before (0.6.x)
+  let topic: ChannelTopic = { ... }
+
+  // After (0.7.0)
+  let topic: Record<string, unknown> = { ... }
+  ```
+
+- **`let subject: string` uninitialized variables**
+
+  TypeScript's strictness around uninitialized variables was tightened in some internal types. If you have code like `let subject: string` that is conditionally assigned, TypeScript now requires explicit initialization.
+
+  ```typescript
+  // Before (0.6.x) — compiled (even if subject was only conditionally assigned)
+  let subject: string
+
+  // After (0.7.0) — must initialize
+  let subject: string = ''
+  ```
+
+  Fix: add `= ''` (or appropriate default) to any `let` declarations that TypeScript now flags as "used before being assigned".
+
 - **`Transaction.buyerFee` renamed to `Transaction.platformFee`**
 
   ```typescript
