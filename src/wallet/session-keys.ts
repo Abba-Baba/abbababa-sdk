@@ -8,7 +8,7 @@ import {
 import { polygonAmoy, polygon, baseSepolia, base } from 'viem/chains'
 import { ABBABABA_ESCROW_ABI, ERC20_ABI } from './abi.js'
 import {
-  ESCROW_V4_ADDRESSES,
+  ESCROW_V2_ADDRESSES,
   POLYGON_AMOY_CHAIN_ID,
   BASE_SEPOLIA_CHAIN_ID,
   BASE_MAINNET_CHAIN_ID,
@@ -37,11 +37,11 @@ const CHAINS: Record<string, Chain> = {
 const DEFAULT_VALIDITY_SECONDS = 3600 // 1 hour
 
 /**
- * Build escrow-scoped policies for a session key (V4).
+ * Build escrow-scoped policies for a session key (V2).
  *
- * Creates a CallPolicy restricted to V4 escrow operations:
- * 1. ERC20.approve for each allowed token (spender must equal V4 escrow contract)
- * 2. Escrow.createEscrow (5 args: escrowId, seller, amount, token, deadline)
+ * Creates a CallPolicy restricted to V2 escrow operations:
+ * 1. ERC20.approve for each allowed token (spender must equal V2 escrow contract)
+ * 2. Escrow.createEscrow (8 args: escrowId, seller, amount, token, deadline, disputeWindow, abandonmentGrace, criteriaHash)
  * 3. Escrow.submitDelivery
  * 4. Escrow.accept
  * 5. Escrow.finalizeRelease
@@ -69,9 +69,9 @@ export async function buildEscrowPolicies(config: {
   )
   const { toTimestampPolicy } = await import('@zerodev/permissions/policies')
 
-  // Resolve V4 escrow contract
-  const escrowAddress = ESCROW_V4_ADDRESSES[chainId]
-  if (!escrowAddress) throw new Error(`No V4 escrow contract for chain ${chainId}`)
+  // Resolve V2 escrow contract
+  const escrowAddress = ESCROW_V2_ADDRESSES[chainId]
+  if (!escrowAddress) throw new Error(`No V2 escrow contract for chain ${chainId}`)
 
   // Resolve tokens to allow
   const registry = TOKEN_REGISTRY[chainId] ?? {}
