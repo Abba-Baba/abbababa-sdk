@@ -119,6 +119,26 @@ export type {
 // V2 on-chain enums
 export { EscrowStatus, OnChainDisputeOutcome } from './types.js'
 
+// Wallet constants (chain IDs, contract addresses, token registry)
+export {
+  POLYGON_AMOY_CHAIN_ID,
+  POLYGON_MAINNET_CHAIN_ID,
+  BASE_SEPOLIA_CHAIN_ID,
+  BASE_MAINNET_CHAIN_ID,
+  ESCROW_V2_ADDRESSES,
+  SCORE_V2_ADDRESSES,
+  RESOLVER_V2_ADDRESSES,
+  MAINNET_CHAIN_IDS,
+  TESTNET_CHAIN_IDS,
+  MAINNET_GRADUATION_SCORE,
+  TESTNET_USDC_ADDRESS,
+  TOKEN_REGISTRY,
+  getToken,
+  getTokensByTier,
+  isTokenSupported,
+} from './wallet/constants.js'
+export type { TokenInfo } from './wallet/constants.js'
+
 // Registration types
 export type { RegisterOptions, RegisterResult } from './register.js'
 
