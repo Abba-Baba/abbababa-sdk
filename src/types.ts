@@ -65,7 +65,7 @@ export type GasStrategy = 'self-funded' | 'erc20' | 'auto' | 'sponsored'
 // Config
 // ============================================================================
 
-export interface AbbabaConfig {
+export interface AbbaBabaConfig {
   apiKey: string
   baseUrl?: string
   timeout?: number

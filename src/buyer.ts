@@ -1,8 +1,8 @@
-import { AbbabaClient } from './client.js'
+import { AbbaBabaClient } from './client.js'
 import { WebhookServer } from './webhook.js'
 import { AgentCrypto, verifyAttestation } from './crypto.js'
 import type {
-  AbbabaConfig,
+  AbbaBabaConfig,
   Service,
   ServiceSearchParams,
   CheckoutInput,
@@ -21,15 +21,15 @@ import type {
 } from './types.js'
 
 export class BuyerAgent {
-  public readonly client: AbbabaClient
+  public readonly client: AbbaBabaClient
   private webhookServer: WebhookServer | null = null
   private walletAddress: string | null = null
   private kernelClient: unknown = null
   private resolvedGasStrategy: 'self-funded' | 'erc20' | 'sponsored' | null = null
   private _crypto: AgentCrypto | null = null
 
-  constructor(config: AbbabaConfig) {
-    this.client = new AbbabaClient(config)
+  constructor(config: AbbaBabaConfig) {
+    this.client = new AbbaBabaClient(config)
   }
 
   /** Search the marketplace for services. */
@@ -254,7 +254,7 @@ export class BuyerAgent {
    * session key string to the agent. The session key is restricted to
    * V2 escrow operations by default.
    *
-   * This is a static method — it doesn't require an API key or AbbabaClient.
+   * This is a static method — it doesn't require an API key or AbbaBabaClient.
    *
    * Requires @zerodev/sdk, @zerodev/ecdsa-validator, and @zerodev/permissions.
    */

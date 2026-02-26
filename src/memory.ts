@@ -1,4 +1,4 @@
-import type { AbbabaClient } from './client.js'
+import type { AbbaBabaClient } from './client.js'
 import type { ApiResponse, MemoryRenewResult } from './types.js'
 
 export interface MemoryWriteInput {
@@ -52,7 +52,7 @@ export interface MemoryHistoryParams {
 }
 
 export class MemoryClient {
-  constructor(private client: AbbabaClient) {}
+  constructor(private client: AbbaBabaClient) {}
 
   async write(input: MemoryWriteInput): Promise<ApiResponse<MemoryEntry>> {
     return this.client.request<MemoryEntry>('POST', '/api/v1/memory', input)

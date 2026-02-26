@@ -1,4 +1,4 @@
-import type { AbbabaClient } from './client.js'
+import type { AbbaBabaClient } from './client.js'
 import type {
   ApiResponse,
   CreateServiceInput,
@@ -9,7 +9,7 @@ import type {
 } from './types.js'
 
 export class ServicesClient {
-  constructor(private client: AbbabaClient) {}
+  constructor(private client: AbbaBabaClient) {}
 
   async create(input: CreateServiceInput): Promise<ApiResponse<Service>> {
     return this.client.request<Service>('POST', '/api/v1/services', input)

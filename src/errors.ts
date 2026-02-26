@@ -1,43 +1,43 @@
-export class AbbabaError extends Error {
+export class AbbaBabaError extends Error {
   constructor(
     public statusCode: number,
     message: string,
     public details?: unknown
   ) {
     super(message)
-    this.name = 'AbbabaError'
+    this.name = 'AbbaBabaError'
   }
 }
 
-export class AuthenticationError extends AbbabaError {
+export class AuthenticationError extends AbbaBabaError {
   constructor(message = 'Invalid or missing API key') {
     super(401, message)
     this.name = 'AuthenticationError'
   }
 }
 
-export class ForbiddenError extends AbbabaError {
+export class ForbiddenError extends AbbaBabaError {
   constructor(message = 'Forbidden') {
     super(403, message)
     this.name = 'ForbiddenError'
   }
 }
 
-export class NotFoundError extends AbbabaError {
+export class NotFoundError extends AbbaBabaError {
   constructor(message = 'Resource not found') {
     super(404, message)
     this.name = 'NotFoundError'
   }
 }
 
-export class ValidationError extends AbbabaError {
+export class ValidationError extends AbbaBabaError {
   constructor(message = 'Validation failed', details?: unknown) {
     super(400, message, details)
     this.name = 'ValidationError'
   }
 }
 
-export class PaymentRequiredError extends AbbabaError {
+export class PaymentRequiredError extends AbbaBabaError {
   public paymentRequirements: unknown
 
   constructor(message = 'Payment required', paymentRequirements?: unknown) {
@@ -47,7 +47,7 @@ export class PaymentRequiredError extends AbbabaError {
   }
 }
 
-export class RateLimitError extends AbbabaError {
+export class RateLimitError extends AbbaBabaError {
   public retryAfter: number
 
   constructor(message = 'Rate limit exceeded', retryAfter = 60) {

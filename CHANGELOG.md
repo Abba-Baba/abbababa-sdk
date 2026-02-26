@@ -1,5 +1,47 @@
 # @abbababa/sdk Changelog
 
+## [0.9.0] - 2026-02-26 — Brand Rename + Base Mainnet Prep
+
+### Breaking Changes
+
+- **`AbbabaClient` → `AbbaBabaClient`** — corrected brand casing (two words, both capitalized).
+- **`AbbabaError` → `AbbaBabaError`** (and all subclasses: `AuthenticationError`, `ForbiddenError`, `NotFoundError`, `PaymentRequiredError`, `ValidationError`, `RateLimitError` remain unchanged).
+- **`AbbabaConfig` → `AbbaBabaConfig`** — config type for `AbbaBabaClient`, `BuyerAgent`, and `SellerAgent` constructors.
+
+### Migration
+
+```ts
+// Before
+import { AbbabaClient, AbbabaError } from '@abbababa/sdk'
+const client = new AbbabaClient({ apiKey: '...' })
+
+// After
+import { AbbaBabaClient, AbbaBabaError } from '@abbababa/sdk'
+const client = new AbbaBabaClient({ apiKey: '...' })
+```
+
+All other exports (wallet, types, sub-clients, crypto, webhook) are unchanged.
+
+### Also in v0.9.0 — ZeroDev UltraRelay + Base-Only Mainnet
+
+**Gas Sponsorship (`wallet/smart-account.ts`)**
+- `GasStrategy` now includes `'sponsored'` — uses ZeroDev UltraRelay (`?provider=ULTRA_RELAY`)
+  with zeroed gas fees; no paymaster required
+- `BuyerAgent`, `SellerAgent`, and session key methods now expose `'sponsored'` in their
+  resolved strategy type
+
+**Base-Only Chain Support**
+- Chain config trimmed to Base Sepolia + Base Mainnet; Polygon chains deprecated in
+  `wallet/constants.ts` (kept for backwards compat as empty-string TODOs)
+- `MAINNET_CHAIN_IDS` and `TESTNET_CHAIN_IDS` now exported from main index
+
+**Contract Renames (non-breaking at runtime — addresses unchanged)**
+- Solidity source files: `AbbaBabaEscrow.sol`, `AbbaBabaScore.sol`, `AbbaBabaResolver.sol`,
+  `IAbbaBabaScore.sol` (old `Abbababa*V2` names were incorrect PascalCase)
+- JSDoc comments in `wallet/constants.ts` updated to match
+
+---
+
 ## [0.8.0] - 2026-02-25 — E2E Encryption + Dispute-Aware Delivery
 
 ### Overview

@@ -1,6 +1,6 @@
-import type { AbbabaConfig, ApiResponse } from './types.js'
+import type { AbbaBabaConfig, ApiResponse } from './types.js'
 import {
-  AbbabaError,
+  AbbaBabaError,
   AuthenticationError,
   ForbiddenError,
   NotFoundError,
@@ -20,7 +20,7 @@ import { register, type RegisterOptions, type RegisterResult } from './register.
 const DEFAULT_BASE_URL = 'https://abbababa.com'
 const DEFAULT_TIMEOUT = 30_000
 
-export class AbbabaClient {
+export class AbbaBabaClient {
   private apiKey: string
   private baseUrl: string
   private timeout: number
@@ -41,7 +41,7 @@ export class AbbabaClient {
     return register(opts)
   }
 
-  constructor(config: AbbabaConfig) {
+  constructor(config: AbbaBabaConfig) {
     if (!config.apiKey) {
       throw new Error('apiKey is required')
     }
@@ -81,7 +81,7 @@ export class AbbabaClient {
     const headers: Record<string, string> = {
       'X-API-Key': this.apiKey,
       'Accept': 'application/json',
-      'User-Agent': `abbababa-sdk/0.7.0`,
+      'User-Agent': `abbababa-sdk/0.9.0`,
     }
 
     const init: RequestInit & { signal?: AbortSignal } = {
@@ -103,9 +103,9 @@ export class AbbabaClient {
       response = await fetch(url, init)
     } catch (err) {
       if (err instanceof DOMException && err.name === 'AbortError') {
-        throw new AbbabaError(0, `Request timed out after ${this.timeout}ms`)
+        throw new AbbaBabaError(0, `Request timed out after ${this.timeout}ms`)
       }
-      throw new AbbabaError(0, `Network error: ${err instanceof Error ? err.message : String(err)}`)
+      throw new AbbaBabaError(0, `Network error: ${err instanceof Error ? err.message : String(err)}`)
     } finally {
       clearTimeout(timer)
     }
@@ -114,7 +114,7 @@ export class AbbabaClient {
     try {
       json = await response.json() as ApiResponse<T>
     } catch {
-      throw new AbbabaError(
+      throw new AbbaBabaError(
         response.status,
         `Invalid JSON response (HTTP ${response.status})`
       )
@@ -156,7 +156,7 @@ export class AbbabaClient {
           throw new RateLimitError(message, retryAfter)
         }
         default:
-          throw new AbbabaError(response.status, message, json.details)
+          throw new AbbaBabaError(response.status, message, json.details)
       }
     }
 

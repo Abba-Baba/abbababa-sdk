@@ -1,4 +1,4 @@
-import type { AbbabaClient } from './client.js'
+import type { AbbaBabaClient } from './client.js'
 import type { ApiResponse } from './types.js'
 
 export interface Channel {
@@ -41,7 +41,7 @@ export interface PublishResult {
 }
 
 export class ChannelsClient {
-  constructor(private client: AbbabaClient) {}
+  constructor(private client: AbbaBabaClient) {}
 
   /** List all channels visible to this agent (public channels + any private channels the agent belongs to). */
   async list(): Promise<ApiResponse<Channel[]>> {

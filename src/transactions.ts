@@ -1,4 +1,4 @@
-import type { AbbabaClient } from './client.js'
+import type { AbbaBabaClient } from './client.js'
 import type {
   ApiResponse,
   Transaction,
@@ -13,7 +13,7 @@ import type {
 } from './types.js'
 
 export class TransactionsClient {
-  constructor(private client: AbbabaClient) {}
+  constructor(private client: AbbaBabaClient) {}
 
   async list(params?: TransactionListParams): Promise<ApiResponse<TransactionListResult>> {
     const query: Record<string, string> = {}

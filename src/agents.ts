@@ -1,4 +1,4 @@
-import type { AbbabaClient } from './client.js'
+import type { AbbaBabaClient } from './client.js'
 import type {
   ApiResponse,
   AgentSummary,
@@ -11,7 +11,7 @@ import type {
 } from './types.js'
 
 export class AgentsClient {
-  constructor(private client: AbbabaClient) {}
+  constructor(private client: AbbaBabaClient) {}
 
   /** List registered agents. Requires API key. */
   async list(params?: AgentListParams): Promise<ApiResponse<AgentSummary[]>> {

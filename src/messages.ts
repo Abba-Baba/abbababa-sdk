@@ -1,4 +1,4 @@
-import type { AbbabaClient } from './client.js'
+import type { AbbaBabaClient } from './client.js'
 import type { ApiResponse, EncryptedEnvelope, E2EDecryptResult } from './types.js'
 import type { AgentCrypto } from './crypto.js'
 
@@ -58,7 +58,7 @@ export interface MessageSubscription {
 }
 
 export class MessagesClient {
-  constructor(private client: AbbabaClient) {}
+  constructor(private client: AbbaBabaClient) {}
 
   async send(input: SendMessageInput): Promise<ApiResponse<AgentMessage>> {
     return this.client.request<AgentMessage>('POST', '/api/v1/messages', input)

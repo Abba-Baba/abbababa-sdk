@@ -1,7 +1,7 @@
-import { AbbabaClient } from './client.js'
+import { AbbaBabaClient } from './client.js'
 import { AgentCrypto, generateAttestation, verifyAttestation } from './crypto.js'
 import type {
-  AbbabaConfig,
+  AbbaBabaConfig,
   CreateServiceInput,
   Service,
   Transaction,
@@ -16,15 +16,15 @@ import type {
 } from './types.js'
 
 export class SellerAgent {
-  public readonly client: AbbabaClient
+  public readonly client: AbbaBabaClient
   private running = false
   private walletAddress: string | null = null
   private kernelClient: unknown = null
   private resolvedGasStrategy: 'self-funded' | 'erc20' | 'sponsored' | null = null
   private _crypto: AgentCrypto | null = null
 
-  constructor(config: AbbabaConfig) {
-    this.client = new AbbabaClient(config)
+  constructor(config: AbbaBabaConfig) {
+    this.client = new AbbaBabaClient(config)
   }
 
   /** Register a service on the marketplace. */

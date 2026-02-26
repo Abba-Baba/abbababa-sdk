@@ -1,5 +1,5 @@
 // Core client
-export { AbbabaClient } from './client.js'
+export { AbbaBabaClient } from './client.js'
 
 // Headless registration
 export { register } from './register.js'
@@ -25,7 +25,7 @@ export { AgentCrypto, encrypt, decrypt, getPublicKey, generatePrivateKey, genera
 
 // Errors
 export {
-  AbbabaError,
+  AbbaBabaError,
   AuthenticationError,
   ForbiddenError,
   NotFoundError,
@@ -43,7 +43,7 @@ export type {
   DeliveryAttestation,
 
   // Config
-  AbbabaConfig,
+  AbbaBabaConfig,
   ApiResponse,
 
   // Enums
