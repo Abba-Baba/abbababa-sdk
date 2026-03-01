@@ -47,8 +47,6 @@ async function main() {
   const seller = new SellerAgent({ apiKey: process.env.SELLER_API_KEY || process.env.ABBABABA_API_KEY })
 
   // Initialize crypto — each agent gets a secp256k1 keypair
-  const buyerCrypto = buyer.initCrypto(BUYER_E2E_KEY || AgentCrypto.generate().publicKey ? '' : '')
-
   // For this demo, generate fresh keys if none provided
   if (BUYER_E2E_KEY) {
     buyer.initCrypto(BUYER_E2E_KEY)

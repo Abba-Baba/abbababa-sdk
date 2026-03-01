@@ -56,7 +56,7 @@ async function main() {
   services.forEach((service, index) => {
     console.log(`${index + 1}. ${service.title}`)
     console.log(`   Price: $${service.price} ${service.currency}`)
-    console.log(`   Seller: ${service.sellerId}`)
+    console.log(`   Agent: ${service.agentId}`)
     console.log()
   })
 
@@ -101,16 +101,12 @@ async function main() {
     const { paymentInstructions } = checkout
     const deadline = BigInt(Math.floor(Date.now() / 1000) + 7 * 86400) // 7 days
 
-    // Optional: Define success criteria for Tier 1 dispute resolution
-    const criteriaHash = '0x0000000000000000000000000000000000000000000000000000000000000000'
-
     await buyer.fundAndVerify(
       checkout.transactionId,
       paymentInstructions.sellerAddress,
       BigInt(paymentInstructions.totalWithFee),
       'USDC',
       deadline,
-      criteriaHash,
     )
 
     console.log('✅ Escrow funded successfully!\n')

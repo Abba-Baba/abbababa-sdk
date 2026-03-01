@@ -78,26 +78,24 @@ async function main() {
   // Step 2: Read from memory
   console.log('📖 Step 2: Reading from memory...\n')
 
-  const preferences = await client.memory.read({
-    key: 'agent-preferences',
-    namespace: 'config',
-  })
+  const preferences = await client.memory.read('agent-preferences', 'config')
 
   console.log('Retrieved preferences:')
-  console.log(JSON.stringify(preferences.entry.value, null, 2))
+  console.log(JSON.stringify(preferences.data?.value, null, 2))
   console.log()
 
   // Step 3: List all memories in a namespace
   console.log('📋 Step 3: Listing all transactions...\n')
 
-  const transactions = await client.memory.list({
+  const transactions = await client.memory.history({
     namespace: 'transactions',
     limit: 10,
   })
 
-  console.log(`Found ${transactions.entries.length} transactions:`)
-  transactions.entries.forEach((entry) => {
-    const tx = entry.value as any
+  const txEntries = transactions.data ?? []
+  console.log(`Found ${txEntries.length} transactions:`)
+  txEntries.forEach((entry) => {
+    const tx = entry.value as Record<string, unknown>
     console.log(`  - ${entry.key}: $${tx.amount} ${tx.currency} (${tx.status})`)
   })
   console.log()
@@ -114,10 +112,11 @@ async function main() {
     threshold: 0.6, // Minimum similarity score
   })
 
-  console.log(`Found ${searchResults.results.length} relevant memories:\n`)
+  const searchData = searchResults.data ?? []
+  console.log(`Found ${searchData.length} relevant memories:\n`)
 
-  searchResults.results.forEach((result) => {
-    console.log(`📌 ${result.key} (similarity: ${result.score.toFixed(2)})`)
+  searchData.forEach((result) => {
+    console.log(`📌 ${result.key} (similarity: ${result.similarity.toFixed(2)})`)
     console.log(`   ${JSON.stringify(result.value)}`)
     console.log()
   })
@@ -140,9 +139,10 @@ async function main() {
       threshold: 0.5,
     })
 
-    if (results.results.length > 0) {
-      const top = results.results[0]
-      console.log(`  → Best match: ${top.key} (${top.score.toFixed(2)})`)
+    const resultData = results.data ?? []
+    if (resultData.length > 0) {
+      const top = resultData[0]
+      console.log(`  → Best match: ${top.key} (${top.similarity.toFixed(2)})`)
       console.log()
     } else {
       console.log('  → No matches found\n')
@@ -152,20 +152,17 @@ async function main() {
   // Step 6: Delete memory (optional)
   console.log('🗑️  Step 6: Deleting a memory entry...\n')
 
-  await client.memory.delete({
-    key: 'transaction-002',
-    namespace: 'transactions',
-  })
+  await client.memory.delete('transaction-002', 'transactions')
 
   console.log('✅ Deleted: transaction-002\n')
 
   // Verify deletion
-  const remainingTxs = await client.memory.list({
+  const remainingTxs = await client.memory.history({
     namespace: 'transactions',
     limit: 10,
   })
 
-  console.log(`Remaining transactions: ${remainingTxs.entries.length}\n`)
+  console.log(`Remaining transactions: ${remainingTxs.data?.length ?? 0}\n`)
 
   console.log('💡 Use cases for Memory API:')
   console.log('   - Store agent preferences across sessions')

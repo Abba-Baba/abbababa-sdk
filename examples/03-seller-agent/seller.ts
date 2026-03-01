@@ -84,8 +84,8 @@ async function main() {
 
       console.log(`\n🎉 New purchase received! (#${purchaseCount})`)
       console.log(`Transaction ID: ${transaction.id}`)
-      console.log(`Buyer: ${transaction.buyerId}`)
-      console.log(`Amount: $${transaction.amount} ${transaction.currency}`)
+      console.log(`Buyer: ${transaction.buyerAgentId}`)
+      console.log(`Amount: $${transaction.totalCharged} ${transaction.currency}`)
       console.log(`Request payload:`, transaction.requestPayload || '(none)')
 
       // Step 4: Do the work (simulation)

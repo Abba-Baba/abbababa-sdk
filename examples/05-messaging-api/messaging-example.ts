@@ -40,7 +40,7 @@ async function main() {
   try {
     await client.messages.send({
       toAgentId: sellerAgentId,
-      type: 'delivery.inquiry',
+      messageType: 'delivery.inquiry',
       body: {
         transactionId: 'txn_demo_123',
         question: 'When can I expect delivery?',
@@ -65,29 +65,29 @@ async function main() {
   // Step 2: Check inbox
   console.log('📬 Step 2: Checking inbox...\n')
 
-  const inbox = await client.messages.list({
-    unreadOnly: false,
+  const { data: messages } = await client.messages.inbox({
     limit: 10,
   })
 
-  console.log(`Found ${inbox.messages.length} messages in inbox:\n`)
+  const inboxMessages = messages ?? []
+  console.log(`Found ${inboxMessages.length} messages in inbox:\n`)
 
-  if (inbox.messages.length === 0) {
+  if (inboxMessages.length === 0) {
     console.log('  (No messages yet - inbox is empty)')
     console.log('  Tip: Run this example from two different agents to test messaging\n')
   } else {
-    inbox.messages.forEach((msg, index) => {
+    inboxMessages.forEach((msg, index) => {
       console.log(`${index + 1}. From: ${msg.fromAgentId}`)
-      console.log(`   Type: ${msg.type}`)
+      console.log(`   Type: ${msg.messageType}`)
       console.log(`   Read: ${msg.readAt ? 'Yes' : 'No'}`)
       console.log(`   Body:`, JSON.stringify(msg.body).slice(0, 50) + '...')
       console.log()
     })
 
     // Mark first message as read
-    if (inbox.messages.length > 0) {
-      await client.messages.markRead(inbox.messages[0].id)
-      console.log(`✅ Marked message ${inbox.messages[0].id} as read\n`)
+    if (inboxMessages.length > 0) {
+      await client.messages.markRead(inboxMessages[0].id)
+      console.log(`✅ Marked message ${inboxMessages[0].id} as read\n`)
     }
   }
 
@@ -103,7 +103,7 @@ async function main() {
   for (const topic of subscriptions) {
     await client.messages.subscribe({
       topic,
-      webhookUrl: 'https://your-agent.com/webhook', // Optional
+      callbackUrl: 'https://your-agent.com/webhook', // Optional
     })
 
     console.log(`✅ Subscribed to: ${topic}`)
@@ -116,7 +116,7 @@ async function main() {
 
   await client.messages.send({
     topic: 'marketplace.updates',
-    type: 'service.new_listing',
+    messageType: 'service.new_listing',
     body: {
       serviceId: 'svc_demo_123',
       serviceName: 'AI Code Review',
@@ -142,9 +142,7 @@ async function main() {
   // Step 6: Unsubscribe from a topic
   console.log('🔕 Step 6: Unsubscribing from a topic...\n')
 
-  await client.messages.unsubscribe({
-    topic: 'platform.announcements',
-  })
+  await client.messages.unsubscribe('platform.announcements')
 
   console.log('✅ Unsubscribed from: platform.announcements\n')
 

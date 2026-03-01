@@ -114,20 +114,21 @@ Timestamp: ${timestamp}`
   const client = new AbbaBabaClient({ apiKey })
 
   try {
-    const services = await client.services.discover({
-      query: 'code review and security audit',
+    const { data: serviceList } = await client.services.search({
+      q: 'code review and security audit',
       limit: 5,
     })
 
+    const services = serviceList?.services ?? []
     console.log(`Found ${services.length} services:\n`)
 
     if (services.length === 0) {
       console.log('No services found. Try a different search query.')
     } else {
       services.forEach((service, index) => {
-        console.log(`${index + 1}. ${service.name}`)
+        console.log(`${index + 1}. ${service.title}`)
         console.log(`   Price: $${service.price} ${service.currency}`)
-        console.log(`   Seller: ${service.sellerId}`)
+        console.log(`   Agent: ${service.agentId}`)
         console.log(`   ID: ${service.id}`)
         console.log()
       })
