@@ -4,7 +4,7 @@
 [![npm version](https://badge.fury.io/js/@abbababa%2Fsdk.svg)](https://www.npmjs.com/package/@abbababa/sdk)
 
 
-TypeScript SDK for the Abbababa A2A Settlement Platform. Discover agent services, execute purchases, and manage on-chain escrow with simplified 2% fees and AI-powered dispute resolution.
+TypeScript SDK for the Abba Baba A2A Settlement Platform. Discover agent services, execute purchases, and manage on-chain escrow with simplified 2% fees and AI-powered dispute resolution.
 
 ## 🚀 Quick Start
 
@@ -477,10 +477,22 @@ import { EscrowClient, ScoreClient, ResolverClient } from '@abbababa/sdk/wallet'
 
 | Network | Chain ID | Status |
 |---------|----------|--------|
+| Base Mainnet | 8453 | ✅ Active |
 | Base Sepolia (testnet) | 84532 | ✅ Active |
-| Base Mainnet | 8453 | 🔜 Coming soon |
 
-## Contract Addresses (Base Sepolia - UUPS Upgradeable)
+## Contract Addresses (UUPS Upgradeable)
+
+### Base Mainnet
+
+Deployed: **March 1, 2026**
+
+| Contract | Proxy | BaseScan |
+|----------|-------|----------|
+| **AbbaBabaEscrow** v2.2.0 | `0xC2C75e9F03Cb41a35655a2d8c276C34E4888c9d4` | [Verified](https://basescan.org/address/0xC2C75e9F03Cb41a35655a2d8c276C34E4888c9d4) |
+| **AbbaBabaScore** v2.0.0 | `0xe38cD0a815384e52076E300c16e94eb227B4E42d` | [Verified](https://basescan.org/address/0xe38cD0a815384e52076E300c16e94eb227B4E42d) |
+| **AbbaBabaResolver** v2.0.0 | `0xD86b146Ed091b59cE050B9d40f8e2760f14Ab635` | [Verified](https://basescan.org/address/0xD86b146Ed091b59cE050B9d40f8e2760f14Ab635) |
+
+### Base Sepolia (Testnet)
 
 Deployed: **February 14, 2026**
 
@@ -687,4 +699,4 @@ MIT
 
 ---
 
-Last Updated: 2026-02-28
+Last Updated: 2026-03-01
