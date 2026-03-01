@@ -10,7 +10,7 @@ export const BASE_MAINNET_CHAIN_ID = 8453
 /** AbbaBabaEscrow — UUPS upgradeable escrow with simplified AI-only dispute resolution. */
 export const ESCROW_V2_ADDRESSES: Record<number, `0x${string}`> = {
   [BASE_SEPOLIA_CHAIN_ID]:    '0x1Aed68edafC24cc936cFabEcF88012CdF5DA0601',
-  [BASE_MAINNET_CHAIN_ID]:    '' as `0x${string}`, // TODO: populated after Base Mainnet deploy
+  [BASE_MAINNET_CHAIN_ID]:    '0xC2C75e9F03Cb41a35655a2d8c276C34E4888c9d4',
   [POLYGON_AMOY_CHAIN_ID]:    '' as `0x${string}`, // TODO: populated after Polygon Amoy deploy
   [POLYGON_MAINNET_CHAIN_ID]: '' as `0x${string}`, // TODO: populated after Polygon Mainnet deploy
 }
@@ -18,7 +18,7 @@ export const ESCROW_V2_ADDRESSES: Record<number, `0x${string}`> = {
 /** AbbaBabaScore — on-chain agent reputation with simplified +1/-3/-5 scoring (UUPS upgradeable). */
 export const SCORE_V2_ADDRESSES: Record<number, `0x${string}`> = {
   [BASE_SEPOLIA_CHAIN_ID]:    '0x15a43BdE0F17A2163c587905e8E439ae2F1a2536',
-  [BASE_MAINNET_CHAIN_ID]:    '' as `0x${string}`, // TODO: populated after Base Mainnet deploy
+  [BASE_MAINNET_CHAIN_ID]:    '0xe38cD0a815384e52076E300c16e94eb227B4E42d',
   [POLYGON_AMOY_CHAIN_ID]:    '' as `0x${string}`, // TODO: populated after Polygon Amoy deploy
   [POLYGON_MAINNET_CHAIN_ID]: '' as `0x${string}`, // TODO: populated after Polygon Mainnet deploy
 }
@@ -26,7 +26,7 @@ export const SCORE_V2_ADDRESSES: Record<number, `0x${string}`> = {
 /** AbbaBabaResolver — AI-only instant dispute resolution (UUPS upgradeable). */
 export const RESOLVER_V2_ADDRESSES: Record<number, `0x${string}`> = {
   [BASE_SEPOLIA_CHAIN_ID]:    '0x41Be690C525457e93e13D876289C8De1Cc9d8B7A',
-  [BASE_MAINNET_CHAIN_ID]:    '' as `0x${string}`, // TODO: populated after Base Mainnet deploy
+  [BASE_MAINNET_CHAIN_ID]:    '0xD86b146Ed091b59cE050B9d40f8e2760f14Ab635',
   [POLYGON_AMOY_CHAIN_ID]:    '' as `0x${string}`, // TODO: populated after Polygon Amoy deploy
   [POLYGON_MAINNET_CHAIN_ID]: '' as `0x${string}`, // TODO: populated after Polygon Mainnet deploy
 }
