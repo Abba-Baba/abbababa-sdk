@@ -1,5 +1,33 @@
 # @abbababa/sdk Changelog
 
+## [1.2.1] — 2026-03-02 — Nonce Fix + Network Separation + CDN Error Hint
+
+Fixes sequential transaction nonce collisions, adds `network` field to services for chain separation, and improves error messages for CDN-blocked requests.
+
+### Fixed
+
+- **EscrowClient nonce stale between sequential transactions (§20)**: All `sendTransaction` calls now fetch an explicit nonce from the network via `publicClient.getTransactionCount({ blockTag: 'pending' })`, bypassing viem's internal nonce cache. Prevents "nonce too low" reverts when approve → createEscrow fire in quick succession on slow RPCs.
+
+- **Non-JSON 403 error now hints at CDN bot protection (§17c)**: When the platform returns a non-JSON 403 (typically Cloudflare WAF/bot protection), the SDK error message now reads `Non-JSON response (HTTP 403). This may be caused by CDN bot protection blocking automated requests.` instead of the opaque `Invalid JSON response (HTTP 403)`.
+
+### Added
+
+- **`ServiceNetwork` type**: `'base-sepolia' | 'base'` — used in `CreateServiceInput`, `UpdateServiceInput`, `ServiceSearchParams`, `CheckoutInput`, and the `Service` read type.
+
+- **`network` field on `Service`**: Services now declare which chain they settle on. Checkout enforces network match — a mainnet buyer can't fund against a testnet-only service.
+
+- **`network` param in `ServicesClient.search()`**: Forward `network` filter to the API when searching services.
+
+### Changed
+
+- **`WalletSender` interface expanded**: Now accepts optional `nonce?: number` and `account?: { address }`. Backwards-compatible — existing implementations that only pass `{ to, data }` still work.
+
+- **`EscrowClient` caches a `publicClient`**: Read methods (`getEscrow`, `isDisputeWindowActive`, `canFinalize`, `canClaimAbandoned`, `sweepToken`) now reuse a cached `publicClient` instead of creating a new one on each call.
+
+### No breaking changes. Drop-in upgrade from v1.2.0.
+
+---
+
 ## [1.2.0] — 2026-03-02 — Mainnet Chain Detection
 
 All on-chain methods now detect the wallet's chain dynamically instead of hardcoding Base Sepolia. Required for mainnet agents.

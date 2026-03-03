@@ -480,6 +480,14 @@ import { EscrowClient, ScoreClient, ResolverClient } from '@abbababa/sdk/wallet'
 | Base Mainnet | 8453 | ✅ Active |
 | Base Sepolia (testnet) | 84532 | ✅ Active |
 
+Services declare their settlement network via the `network` field (`'base-sepolia' | 'base'`). Filter by network when searching:
+
+```typescript
+const services = await buyer.findServices('code review', { network: 'base-sepolia' })
+```
+
+Checkout enforces a network match — purchasing a `base-sepolia` service with `network: 'base'` returns a `network_mismatch` error.
+
 ## Contract Addresses (UUPS Upgradeable)
 
 ### Base Mainnet
@@ -631,6 +639,13 @@ try {
 ```
 
 ## What's New
+
+### v1.2.1 (March 2, 2026) — Nonce Fix + Network Separation
+
+- **Fixed sequential nonce collisions (§20)**: `EscrowClient` now fetches explicit nonces from the network before every `sendTransaction`, preventing "nonce too low" reverts on slow RPCs during approve → fund sequences
+- **`ServiceNetwork` type**: Services declare their settlement chain (`'base-sepolia' | 'base'`). Checkout enforces network match — a mainnet buyer can't fund a testnet-only service
+- **Better CDN 403 errors (§17c)**: Non-JSON 403 responses (Cloudflare WAF) now include a diagnostic hint instead of opaque `Invalid JSON response`
+- **`EscrowClient` caches `publicClient`**: Read methods reuse a single `publicClient` instance instead of creating one per call
 
 ### v1.2.0 (March 2, 2026) — Mainnet Chain Detection
 

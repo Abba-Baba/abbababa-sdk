@@ -22,7 +22,8 @@ import type { EscrowDetails, AgentStats } from '../types.js'
 
 /** Minimal interface satisfied by viem WalletClient and any compatible EOA wallet. */
 export interface WalletSender {
-  sendTransaction(args: { to: `0x${string}`; data: `0x${string}` }): Promise<`0x${string}`>
+  sendTransaction(args: { to: `0x${string}`; data: `0x${string}`; nonce?: number }): Promise<`0x${string}`>
+  account?: { address: `0x${string}` }
 }
 
 /** Dispute resolution outcome */
@@ -68,6 +69,7 @@ export class EscrowClient {
   private escrowAddress: Address
   private tokenAddress: Address
   private tokenDecimals: number
+  private publicClient: ReturnType<typeof createPublicClient>
 
   constructor(walletClient: WalletSender, token?: TokenInfo, chainId = BASE_SEPOLIA_CHAIN_ID) {
     this.walletClient = walletClient
@@ -87,6 +89,20 @@ export class EscrowClient {
     const v2 = ESCROW_V2_ADDRESSES[chainId]
     if (!v2) throw new Error(`No V2 escrow contract for chain ${chainId}`)
     this.escrowAddress = v2 as Address
+
+    // Cache a public client for nonce lookups and read calls
+    const viemChain = CHAINS[chainId] ?? baseSepolia
+    this.publicClient = createPublicClient({ chain: viemChain, transport: http() })
+  }
+
+  /**
+   * Fetch a fresh nonce from the network, bypassing viem's internal nonce cache.
+   * Prevents nonce collisions on sequential transactions (e.g. approve → fund).
+   */
+  private async _freshNonce(): Promise<number> {
+    const address = this.walletClient.account?.address
+    if (!address) return undefined as unknown as number // fallback to viem default
+    return this.publicClient.getTransactionCount({ address, blockTag: 'pending' })
   }
 
   /**
@@ -115,6 +131,7 @@ export class EscrowClient {
     const txHash = await this.walletClient.sendTransaction({
       to: this.tokenAddress,
       data,
+      nonce: await this._freshNonce(),
     })
 
     return txHash
@@ -161,6 +178,7 @@ export class EscrowClient {
     const txHash = await this.walletClient.sendTransaction({
       to: this.escrowAddress,
       data,
+      nonce: await this._freshNonce(),
     })
 
     return txHash
@@ -181,6 +199,7 @@ export class EscrowClient {
     const txHash = await this.walletClient.sendTransaction({
       to: this.escrowAddress,
       data,
+      nonce: await this._freshNonce(),
     })
 
     return txHash
@@ -201,6 +220,7 @@ export class EscrowClient {
     const txHash = await this.walletClient.sendTransaction({
       to: this.escrowAddress,
       data,
+      nonce: await this._freshNonce(),
     })
 
     return txHash
@@ -222,6 +242,7 @@ export class EscrowClient {
     const txHash = await this.walletClient.sendTransaction({
       to: this.escrowAddress,
       data,
+      nonce: await this._freshNonce(),
     })
 
     return txHash
@@ -242,6 +263,7 @@ export class EscrowClient {
     const txHash = await this.walletClient.sendTransaction({
       to: this.escrowAddress,
       data,
+      nonce: await this._freshNonce(),
     })
 
     return txHash
@@ -263,6 +285,7 @@ export class EscrowClient {
     const txHash = await this.walletClient.sendTransaction({
       to: this.escrowAddress,
       data,
+      nonce: await this._freshNonce(),
     })
 
     return txHash
@@ -273,14 +296,8 @@ export class EscrowClient {
    */
   async getEscrow(transactionId: string): Promise<EscrowDetails | null> {
     const escrowId = EscrowClient.toEscrowId(transactionId)
-    const viemChain = CHAINS[this.chainId] ?? baseSepolia
 
-    const publicClient = createPublicClient({
-      chain: viemChain,
-      transport: http(),
-    })
-
-    const result = await publicClient.readContract({
+    const result = await this.publicClient.readContract({
       address: this.escrowAddress,
       abi: ABBABABA_ESCROW_ABI,
       functionName: 'getEscrow',
@@ -317,14 +334,8 @@ export class EscrowClient {
    */
   async isDisputeWindowActive(transactionId: string): Promise<boolean> {
     const escrowId = EscrowClient.toEscrowId(transactionId)
-    const viemChain = CHAINS[this.chainId] ?? baseSepolia
 
-    const publicClient = createPublicClient({
-      chain: viemChain,
-      transport: http(),
-    })
-
-    const result = await publicClient.readContract({
+    const result = await this.publicClient.readContract({
       address: this.escrowAddress,
       abi: ABBABABA_ESCROW_ABI,
       functionName: 'isDisputeWindowActive',
@@ -339,14 +350,8 @@ export class EscrowClient {
    */
   async canFinalize(transactionId: string): Promise<boolean> {
     const escrowId = EscrowClient.toEscrowId(transactionId)
-    const viemChain = CHAINS[this.chainId] ?? baseSepolia
 
-    const publicClient = createPublicClient({
-      chain: viemChain,
-      transport: http(),
-    })
-
-    const result = await publicClient.readContract({
+    const result = await this.publicClient.readContract({
       address: this.escrowAddress,
       abi: ABBABABA_ESCROW_ABI,
       functionName: 'canFinalize',
@@ -373,6 +378,7 @@ export class EscrowClient {
     return this.walletClient.sendTransaction({
       to: this.tokenAddress,
       data,
+      nonce: await this._freshNonce(),
     })
   }
 
@@ -389,10 +395,7 @@ export class EscrowClient {
    * @returns Transaction hash, or `null` if the balance is zero.
    */
   async sweepToken(fromAddress: `0x${string}`, recipient: `0x${string}`): Promise<string | null> {
-    const viemChain = CHAINS[this.chainId] ?? baseSepolia
-    const publicClient = createPublicClient({ chain: viemChain, transport: http() })
-
-    const balance = await publicClient.readContract({
+    const balance = await this.publicClient.readContract({
       address: this.tokenAddress,
       abi: ERC20_ABI,
       functionName: 'balanceOf',
@@ -410,6 +413,7 @@ export class EscrowClient {
     return this.walletClient.sendTransaction({
       to: this.tokenAddress,
       data,
+      nonce: await this._freshNonce(),
     })
   }
 
@@ -418,14 +422,8 @@ export class EscrowClient {
    */
   async canClaimAbandoned(transactionId: string): Promise<boolean> {
     const escrowId = EscrowClient.toEscrowId(transactionId)
-    const viemChain = CHAINS[this.chainId] ?? baseSepolia
 
-    const publicClient = createPublicClient({
-      chain: viemChain,
-      transport: http(),
-    })
-
-    const result = await publicClient.readContract({
+    const result = await this.publicClient.readContract({
       address: this.escrowAddress,
       abi: ABBABABA_ESCROW_ABI,
       functionName: 'canClaimAbandoned',

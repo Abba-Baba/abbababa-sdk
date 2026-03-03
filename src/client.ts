@@ -114,9 +114,13 @@ export class AbbaBabaClient {
     try {
       json = await response.json() as ApiResponse<T>
     } catch {
+      // Non-JSON response — likely a CDN/WAF block (e.g. Cloudflare bot protection)
+      const hint = response.status === 403
+        ? '. This may be caused by CDN bot protection blocking automated requests. If this persists, contact support.'
+        : ''
       throw new AbbaBabaError(
         response.status,
-        `Invalid JSON response (HTTP ${response.status})`
+        `Non-JSON response (HTTP ${response.status})${hint}`
       )
     }
 
