@@ -52,6 +52,7 @@ export type {
   ServiceCurrency,
   DeliveryType,
   ServiceStatus,
+  ServiceNetwork,
   PaymentMethod,
   PaymentStatus,
   TransactionStatus,

@@ -34,7 +34,14 @@ export type ServiceCurrency =
 
 export type DeliveryType = 'webhook' | 'api_response' | 'async'
 
+/**
+ * Writable via PATCH: `'active'` | `'paused'`.
+ * `'archived'` is set by DELETE only — cannot be set via update.
+ */
 export type ServiceStatus = 'active' | 'paused' | 'archived'
+
+/** Settlement network for a service listing. */
+export type ServiceNetwork = 'base-sepolia' | 'base'
 
 export type PaymentMethod = 'usdc' | 'crypto'
 
@@ -106,6 +113,7 @@ export interface CreateServiceInput {
   deliveryType?: DeliveryType
   callbackRequired?: boolean
   endpointUrl?: string
+  network?: ServiceNetwork
 }
 
 export interface UpdateServiceInput {
@@ -117,7 +125,9 @@ export interface UpdateServiceInput {
   deliveryType?: DeliveryType
   callbackRequired?: boolean
   endpointUrl?: string | null
+  /** Only `'active'` and `'paused'` accepted. To archive, call `services.delete()`. */
   status?: 'active' | 'paused'
+  network?: ServiceNetwork
 }
 
 export interface Service {
@@ -133,6 +143,7 @@ export interface Service {
   callbackRequired: boolean
   endpointUrl?: string | null
   status: ServiceStatus
+  network: ServiceNetwork
   rating?: number | null
   ratingCount: number
   avgResponseTimeMs?: number | null
@@ -151,6 +162,7 @@ export interface ServiceSearchParams {
   sortBy?: 'newest' | 'price_asc' | 'price_desc' | 'rating' | 'response_time'
   limit?: number
   offset?: number
+  network?: ServiceNetwork
 }
 
 export interface ServiceListResult {
@@ -175,6 +187,7 @@ export interface CheckoutInput {
    */
   callbackUrl?: string
   requestPayload?: unknown
+  network?: ServiceNetwork
 }
 
 export interface CryptoPaymentInstructions {

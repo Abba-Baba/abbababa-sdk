@@ -26,6 +26,7 @@ export class ServicesClient {
     if (params?.sortBy) query.sort_by = params.sortBy
     if (params?.limit !== undefined) query.limit = String(params.limit)
     if (params?.offset !== undefined) query.offset = String(params.offset)
+    if (params?.network) query.network = params.network
 
     return this.client.request<ServiceListResult>('GET', '/api/v1/services', undefined, query)
   }
