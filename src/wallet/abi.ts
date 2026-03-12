@@ -186,6 +186,7 @@ export const ABBABABA_SCORE_ABI = [
     inputs: [
       { name: 'buyer', type: 'address' },
       { name: 'seller', type: 'address' },
+      { name: 'amount', type: 'uint256' },
     ],
     outputs: [],
   },
@@ -197,6 +198,7 @@ export const ABBABABA_SCORE_ABI = [
       { name: 'buyer', type: 'address' },
       { name: 'seller', type: 'address' },
       { name: 'outcome', type: 'uint8' },
+      { name: 'amount', type: 'uint256' },
     ],
     outputs: [],
   },
@@ -204,7 +206,10 @@ export const ABBABABA_SCORE_ABI = [
     name: 'recordAbandonment',
     type: 'function',
     stateMutability: 'nonpayable',
-    inputs: [{ name: 'seller', type: 'address' }],
+    inputs: [
+      { name: 'seller', type: 'address' },
+      { name: 'amount', type: 'uint256' },
+    ],
     outputs: [],
   },
   {
